@@ -53,7 +53,7 @@ func (l *MixedLogger) Debug(msg string, args ...any) {
 	}
 
 	for _, logger := range l.loggerImpl {
-		logger.Debug(msg, args)
+		logger.Debug(msg, args...)
 	}
 }
 
@@ -63,7 +63,7 @@ func (l *MixedLogger) Info(msg string, args ...any) {
 	}
 
 	for _, logger := range l.loggerImpl {
-		logger.Info(msg, args)
+		logger.Info(msg, args...)
 	}
 }
 
@@ -73,7 +73,7 @@ func (l *MixedLogger) Warn(msg string, args ...any) {
 	}
 
 	for _, logger := range l.loggerImpl {
-		logger.Warn(msg, args)
+		logger.Warn(msg, args...)
 	}
 }
 
@@ -83,6 +83,6 @@ func (l *MixedLogger) Error(msg string, args ...any) {
 	}
 
 	for _, logger := range l.loggerImpl {
-		logger.Error(msg, args)
+		logger.Error(msg, args...)
 	}
 }
