@@ -18,6 +18,15 @@ func Filter[T any](src []T, f func(item T) bool) []T {
 	return result
 }
 
+func Contains[T comparable](src []T, query T) bool {
+	for _, item := range src {
+		if item == query {
+			return true
+		}
+	}
+	return false
+}
+
 func Map[T any, R any](src []T, f func(item T) R) []R {
 	result := make([]R, len(src))
 	for i := 0; i < len(src); i++ {
@@ -70,4 +79,13 @@ func MapToSet[T any, R comparable](src []T, f func(item T) R) map[R]bool {
 		result[f(src[i])] = true
 	}
 	return result
+}
+
+func Some[T any](src []T, f func(item T) bool) bool {
+	for i := 0; i < len(src); i++ {
+		if f(src[i]) {
+			return true
+		}
+	}
+	return false
 }

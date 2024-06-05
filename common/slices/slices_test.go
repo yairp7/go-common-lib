@@ -1,9 +1,11 @@
 package slices_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/yairp7/go-common-lib/common/slices"
+	"gopkg.in/stretchr/testify.v1/assert"
 )
 
 var theStrings = []string{"sgsdg", "sdfgdsf", "sdgdsg", "sgrgwef", "Sdgqef"}
@@ -13,6 +15,20 @@ var theMap = map[string]string{
 	"sdgdsg":  "sdgdsg",
 	"sgrgwef": "sgrgwef",
 	"Sdgqef":  "Sdgqef",
+}
+
+func TestSome(t *testing.T) {
+	strs := []string{"asfa", "234", "af4", "sff"}
+
+	result := slices.Some(strs, func(item string) bool {
+		return strings.Contains(item, "34")
+	})
+	assert.True(t, result)
+
+	result = slices.Some(strs, func(item string) bool {
+		return strings.Contains(item, "3f34")
+	})
+	assert.False(t, result)
 }
 
 func BenchmarkForEach(b *testing.B) {
