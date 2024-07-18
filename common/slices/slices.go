@@ -89,3 +89,17 @@ func Some[T any](src []T, f func(item T) bool) bool {
 	}
 	return false
 }
+
+func Copy2D[T any](s [][]T) [][]T {
+	n := len(s)
+	m := len(s[0])
+	clone := make([][]T, n)
+	data := make([]T, n*m)
+	for i := range s {
+		start := i * m
+		end := start + m
+		clone[i] = data[start:end:end]
+		copy(clone[i], s[i])
+	}
+	return clone
+}
