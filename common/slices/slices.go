@@ -35,6 +35,14 @@ func Map[T any, R any](src []T, f func(item T) R) []R {
 	return result
 }
 
+func MapI[T any, R any](src []T, f func(item T, index int) R) []R {
+	result := make([]R, len(src))
+	for i := 0; i < len(src); i++ {
+		result[i] = f(src[i], i)
+	}
+	return result
+}
+
 func ForEach[T any](src []T, f func(item T)) {
 	for _, item := range src {
 		f(item)
@@ -88,18 +96,4 @@ func Some[T any](src []T, f func(item T) bool) bool {
 		}
 	}
 	return false
-}
-
-func Copy2D[T any](s [][]T) [][]T {
-	n := len(s)
-	m := len(s[0])
-	clone := make([][]T, n)
-	data := make([]T, n*m)
-	for i := range s {
-		start := i * m
-		end := start + m
-		clone[i] = data[start:end:end]
-		copy(clone[i], s[i])
-	}
-	return clone
 }

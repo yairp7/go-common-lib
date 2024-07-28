@@ -80,21 +80,3 @@ func BenchmarkValues(b *testing.B) {
 		slices.Values(m)
 	}
 }
-
-func generateMatrix() [][]int {
-	matrix := make([][]int, 1000)
-	for i := 0; i < 1000; i++ {
-		matrix[i] = make([]int, 1000)
-		for j := 0; j < 1000; j++ {
-			matrix[i][j] = i * j
-		}
-	}
-	return matrix
-}
-
-func BenchmarkCopy2D(b *testing.B) {
-	matrix := generateMatrix()
-	for i := 0; i < b.N; i++ {
-		slices.Copy2D(matrix)
-	}
-}

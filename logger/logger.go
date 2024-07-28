@@ -1,5 +1,7 @@
 package logger
 
+import "os"
+
 const (
 	DEBUG LogLevel = iota
 	INFO  LogLevel = iota
@@ -84,5 +86,12 @@ func (l *MixedLogger) Error(msg string, args ...any) {
 
 	for _, logger := range l.loggerImpl {
 		logger.Error(msg, args...)
+	}
+}
+
+func NewStdoutLogger(logLevel LogLevel) *GenericLogger {
+	return &GenericLogger{
+		level:  logLevel,
+		writer: os.Stdout,
 	}
 }
