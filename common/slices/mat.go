@@ -51,8 +51,10 @@ func Flat[T any](s [][]T) []T {
 	size := rows * columns
 
 	flatSlice := make([]T, size)
-	for i := 0; i < size; i++ {
-		flatSlice[i] = s[i/rows][i%columns]
+	for row := 0; row < rows; row++ {
+		for col := 0; col < columns; col++ {
+			flatSlice[row*columns+col] = s[row][col]
+		}
 	}
 
 	return flatSlice

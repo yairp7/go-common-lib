@@ -7,6 +7,20 @@ import (
 	"gopkg.in/stretchr/testify.v1/assert"
 )
 
+func TestFlat(t *testing.T) {
+	mat := [][]int{
+		{5, 5, 5},
+		{6, 6, 6},
+		{7, 7, 7},
+	}
+
+	expectedMat := []int{5, 5, 5, 6, 6, 6, 7, 7, 7}
+
+	actualMat := slices.Flat(mat)
+
+	assert.Equal(t, expectedMat, actualMat)
+}
+
 func TestFlatMap(t *testing.T) {
 	mat := [][]int{
 		{5, 5, 5},
