@@ -97,3 +97,35 @@ func Some[T any](src []T, f func(item T) bool) bool {
 	}
 	return false
 }
+
+func Index[T comparable](s []T, query T) int {
+	for i, c := range s {
+		if c == query {
+			return i
+		}
+	}
+
+	return -1
+}
+
+func Find[T comparable](s []T, query T) (result T, isFound bool) {
+	for _, c := range s {
+		if c == query {
+			result = c
+			isFound = true
+			break
+		}
+	}
+	return result, isFound
+}
+
+func FindGeneric[T any](s []T, query T, equalFunc func(a, b T) bool) (result T, isFound bool) {
+	for _, c := range s {
+		if equalFunc(c, query) {
+			result = c
+			isFound = true
+			break
+		}
+	}
+	return result, isFound
+}
