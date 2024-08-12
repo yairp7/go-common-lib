@@ -74,3 +74,9 @@ func BenchmarkCopyMat(b *testing.B) {
 		slices.CopyMat(matrix)
 	}
 }
+
+func TestMat(t *testing.T) {
+	mat := slices.NewMat[int](50, 50)
+	mat.Set(5, 8, 77)
+	assert.Equal(t, mat.Get(5, 8, -1), 77)
+}

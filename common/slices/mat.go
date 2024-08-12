@@ -1,8 +1,37 @@
 package slices
 
 import (
+	"errors"
 	"slices"
 )
+
+type Mat[T any] struct {
+	Values        []T
+	Rows, Columns int
+}
+
+func NewMat[T any](rows, columns int) *Mat[T] {
+	return &Mat[T]{
+		Rows:    rows,
+		Columns: columns,
+		Values:  make([]T, rows*columns),
+	}
+}
+
+func (m *Mat[T]) Get(row, col int, defaultValue T) T {
+	if (row >= m.Rows || row < 0) || (col >= m.Columns || col < 0) {
+		return defaultValue
+	}
+	return m.Values[row*m.Columns+col]
+}
+
+func (m *Mat[T]) Set(row, col int, val T) error {
+	if (row >= m.Rows || row < 0) || (col >= m.Columns || col < 0) {
+		return errors.New("index out of bounds")
+	}
+	m.Values[row*m.Columns+col] = val
+	return nil
+}
 
 func CreateMat[T any](rows, columns int, create func(row, col int) T) [][]T {
 	matrix := make([][]T, rows)
