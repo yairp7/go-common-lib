@@ -52,7 +52,7 @@ func SearchPixels(
 	rect := src.Bounds()
 	stack := make([]image.Point, 0)
 	stack = append(stack, image.Point{X: 0, Y: 0})
-	visited := ds.NewSet[image.Point]()
+	visited := ds.NewSet[image.Point](0)
 
 	pixelsFound := make([]image.Point, 0)
 

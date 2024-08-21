@@ -6,12 +6,6 @@ type Set[K comparable] struct {
 
 type SetOption[K comparable] func(*Set[K])
 
-func WithSetCapacity[K comparable](capacity int) SetOption[K] {
-	return func(s *Set[K]) {
-		s.data = make(map[K]struct{}, capacity)
-	}
-}
-
 func WithSetItems[K comparable](items ...K) SetOption[K] {
 	return func(s *Set[K]) {
 		for _, item := range items {
@@ -20,22 +14,22 @@ func WithSetItems[K comparable](items ...K) SetOption[K] {
 	}
 }
 
-func NewSet[K comparable](opts ...SetOption[K]) Set[K] {
-	set := Set[K]{}
+func NewSet[K comparable](capacity int, opts ...SetOption[K]) *Set[K] {
+	set := Set[K]{
+		data: make(map[K]struct{}, capacity),
+	}
 
 	for _, opt := range opts {
 		opt(&set)
 	}
 
-	if set.data == nil {
-		set.data = make(map[K]struct{}, 0)
-	}
-
-	return set
+	return &set
 }
 
-func (s *Set[K]) Add(key K) {
-	s.data[key] = struct{}{}
+func (s *Set[K]) Add(keys ...K) {
+	for _, key := range keys {
+		s.data[key] = struct{}{}
+	}
 }
 
 func (s *Set[K]) Remove(key K) {
