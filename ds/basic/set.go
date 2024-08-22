@@ -15,15 +15,15 @@ func WithSetItems[K comparable](items ...K) SetOption[K] {
 }
 
 func NewSet[K comparable](capacity int, opts ...SetOption[K]) *Set[K] {
-	set := Set[K]{
+	s := &Set[K]{
 		data: make(map[K]struct{}, capacity),
 	}
 
 	for _, opt := range opts {
-		opt(&set)
+		opt(s)
 	}
 
-	return &set
+	return s
 }
 
 func (s *Set[K]) Add(keys ...K) {

@@ -4,10 +4,31 @@ type Map[K comparable, V any] struct {
 	data map[K]V
 }
 
-func NewMap[K comparable, V any](capacity int) Map[K, V] {
-	return Map[K, V]{
+type MapOption[K comparable, V any] func(*Map[K, V])
+
+type MapEntry[K comparable, V any] struct {
+	Key   K
+	Value V
+}
+
+func WithMapItems[K comparable, V any](items ...MapEntry[K, V]) MapOption[K, V] {
+	return func(m *Map[K, V]) {
+		for _, item := range items {
+			m.Set(item.Key, item.Value)
+		}
+	}
+}
+
+func NewMap[K comparable, V any](capacity int, opts ...MapOption[K, V]) *Map[K, V] {
+	m := &Map[K, V]{
 		data: make(map[K]V, capacity),
 	}
+
+	for _, opt := range opts {
+		opt(m)
+	}
+
+	return m
 }
 
 func (m *Map[K, V]) Set(key K, value V) {
@@ -51,4 +72,17 @@ func (m Map[K, V]) Values() []V {
 		i++
 	}
 	return values
+}
+
+func (m Map[K, V]) Entries() []MapEntry[K, V] {
+	entries := make([]MapEntry[K, V], m.Size())
+	i := 0
+	for k, v := range m.data {
+		entries[i] = MapEntry[K, V]{
+			Key:   k,
+			Value: v,
+		}
+		i++
+	}
+	return entries
 }
