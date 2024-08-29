@@ -13,7 +13,7 @@ func Test_MinHeap(t *testing.T) {
 	values := []int{53, 22, 33, 65, 12, 1, 3, 77}
 	minHeap := ds.NewMinHeap[int]()
 	for _, v := range values {
-		minHeap.Push(ds.HeapNode[int]{
+		minHeap.Push(&ds.HeapNode[int]{
 			Weight: float64(v),
 			Data:   v,
 		})
@@ -32,7 +32,7 @@ func Test_MaxHeap(t *testing.T) {
 	values := []int{53, 22, 33, 65, 12, 1, 3, 77}
 	maxHeap := ds.NewMaxHeap[int]()
 	for _, v := range values {
-		maxHeap.Push(ds.HeapNode[int]{
+		maxHeap.Push(&ds.HeapNode[int]{
 			Weight: float64(v),
 			Data:   v,
 		})

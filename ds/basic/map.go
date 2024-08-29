@@ -2,6 +2,7 @@ package ds
 
 type Map[K comparable, V any] struct {
 	data map[K]V
+	size int
 }
 
 type MapOption[K comparable, V any] func(*Map[K, V])
@@ -33,6 +34,7 @@ func NewMap[K comparable, V any](capacity int, opts ...MapOption[K, V]) *Map[K, 
 
 func (m *Map[K, V]) Set(key K, value V) {
 	m.data[key] = value
+	m.size++
 }
 
 func (m Map[K, V]) Get(key K) V {
@@ -41,6 +43,7 @@ func (m Map[K, V]) Get(key K) V {
 
 func (m *Map[K, V]) Remove(key K) {
 	delete(m.data, key)
+	m.size--
 }
 
 func (m Map[K, V]) Has(key K) bool {
@@ -85,4 +88,8 @@ func (m Map[K, V]) Entries() []MapEntry[K, V] {
 		i++
 	}
 	return entries
+}
+
+func (s *Map[K, V]) ForEach(f forEachFunc[K, V]) {
+	forEachMap(s.data, f)
 }

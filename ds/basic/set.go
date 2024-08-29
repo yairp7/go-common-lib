@@ -2,6 +2,7 @@ package ds
 
 type Set[K comparable] struct {
 	data map[K]struct{}
+	size int
 }
 
 type SetOption[K comparable] func(*Set[K])
@@ -29,11 +30,13 @@ func NewSet[K comparable](capacity int, opts ...SetOption[K]) *Set[K] {
 func (s *Set[K]) Add(keys ...K) {
 	for _, key := range keys {
 		s.data[key] = struct{}{}
+		s.size++
 	}
 }
 
 func (s *Set[K]) Remove(key K) {
 	delete(s.data, key)
+	s.size--
 }
 
 func (s Set[K]) Has(key K) bool {
@@ -44,7 +47,7 @@ func (s Set[K]) Has(key K) bool {
 }
 
 func (s Set[K]) Size() int {
-	return len(s.data)
+	return s.size
 }
 
 func (s Set[K]) Copy(dest *Set[K]) {
@@ -61,4 +64,8 @@ func (s Set[K]) Keys() []K {
 		i++
 	}
 	return keys
+}
+
+func (s *Set[K]) ForEach(f forEachFunc[K, struct{}]) {
+	forEachMap(s.data, f)
 }
