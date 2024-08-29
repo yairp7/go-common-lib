@@ -2,20 +2,26 @@ package ds
 
 import "slices"
 
-var linkedListEntryKey = struct{}{}
-
 type LinkedListEntry[V any] struct {
-	data     V
+	Data     V
 	next     *LinkedListEntry[V]
 	previous *LinkedListEntry[V]
 }
 
 func newLinkedListEntry[V any](initialValue V) *LinkedListEntry[V] {
 	return &LinkedListEntry[V]{
-		data:     initialValue,
+		Data:     initialValue,
 		next:     nil,
 		previous: nil,
 	}
+}
+
+func (e *LinkedListEntry[V]) Next() *LinkedListEntry[V] {
+	return e.next
+}
+
+func (e *LinkedListEntry[V]) Previous() *LinkedListEntry[V] {
+	return e.previous
 }
 
 type LinkedList[V any] struct {
@@ -136,7 +142,7 @@ func (l *LinkedList[V]) PopTail() *LinkedListEntry[V] {
 }
 
 func (l *LinkedList[V]) Swap(entryA, entryB *LinkedListEntry[V]) {
-	entryA.data, entryB.data = entryB.data, entryA.data
+	entryA.Data, entryB.Data = entryB.Data, entryA.Data
 
 	if entryA.next != nil {
 		entryA.next.previous = entryB
@@ -176,7 +182,7 @@ func (l *LinkedList[V]) Sort(cmp func(a, b V) int) *LinkedList[V] {
 		items[i] = entry
 	})
 	slices.SortFunc(items, func(a, b *LinkedListEntry[V]) int {
-		return cmp(a.data, b.data)
+		return cmp(a.Data, b.Data)
 	})
 	newList := NewLinkedList[V]()
 	for _, item := range items {
