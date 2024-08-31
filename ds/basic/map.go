@@ -90,6 +90,11 @@ func (m Map[K, V]) Entries() []MapEntry[K, V] {
 	return entries
 }
 
-func (s *Map[K, V]) ForEach(f forEachFunc[K, V]) {
-	forEachMap(s.data, f)
+func (m *Map[K, V]) ForEach(f forEachFunc[K, V]) {
+	forEachMap(m.data, f)
+}
+
+func (m *Map[K, V]) Clear() {
+	clear(m.data)
+	m.size = 0
 }

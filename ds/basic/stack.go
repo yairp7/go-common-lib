@@ -30,3 +30,8 @@ func (s *Stack[T]) Pop() T {
 func (s *Stack[T]) Size() int {
 	return s.size
 }
+
+func (s *Stack[T]) Clear() {
+	clear(s.items)
+	s.size = 0
+}

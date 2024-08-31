@@ -30,3 +30,8 @@ func (q *Queue[T]) Pop() T {
 func (q *Queue[T]) Size() int {
 	return q.size
 }
+
+func (q *Queue[T]) Clear() {
+	clear(q.items)
+	q.size = 0
+}

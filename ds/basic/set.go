@@ -69,3 +69,8 @@ func (s Set[K]) Keys() []K {
 func (s *Set[K]) ForEach(f forEachFunc[K, struct{}]) {
 	forEachMap(s.data, f)
 }
+
+func (s *Set[K]) Clear() {
+	clear(s.data)
+	s.size = 0
+}
