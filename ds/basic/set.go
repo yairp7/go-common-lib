@@ -74,3 +74,13 @@ func (s *Set[K]) Clear() {
 	clear(s.data)
 	s.size = 0
 }
+
+func (s *Set[K]) Merge(other *Set[K]) {
+	if other == nil {
+		return
+	}
+
+	for k := range other.data {
+		s.Add(k)
+	}
+}

@@ -98,3 +98,13 @@ func (m *Map[K, V]) Clear() {
 	clear(m.data)
 	m.size = 0
 }
+
+func (m *Map[K, V]) Merge(other *Map[K, V]) {
+	if other == nil {
+		return
+	}
+
+	for k, v := range other.data {
+		m.Set(k, v)
+	}
+}
