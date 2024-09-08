@@ -1,5 +1,7 @@
 package ds
 
+import "github.com/yairp7/go-common-lib/common"
+
 type Set[K comparable] struct {
 	data map[K]struct{}
 	size int
@@ -85,4 +87,31 @@ func (s *Set[K]) Merge(other *Set[K]) {
 	for k := range other.data {
 		s.Add(k)
 	}
+}
+
+func (s *Set[K]) Intersect(other *Set[K]) *Set[K] {
+	min := common.Min(s.Size(), other.Size())
+	intersect := NewSet[K](min)
+	if s.Size() > other.Size() {
+		s.ForEach(func(k K) {
+			if other.Has(k) {
+				intersect.Add(k)
+			}
+		})
+	} else {
+		other.ForEach(func(k K) {
+			if s.Has(k) {
+				intersect.Add(k)
+			}
+		})
+	}
+	return intersect
+}
+
+func (s *Set[K]) Union(other *Set[K]) *Set[K] {
+	max := common.Max(s.Size(), other.Size())
+	union := NewSet[K](max)
+	union.Merge(s)
+	union.Merge(other)
+	return union
 }

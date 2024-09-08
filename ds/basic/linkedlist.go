@@ -38,12 +38,17 @@ func NewLinkedList[V any]() *LinkedList[V] {
 	}
 }
 
-func (l *LinkedList[V]) Add(value V) *LinkedListEntry[V] {
+func (l *LinkedList[V]) AddFront(value V) *LinkedListEntry[V] {
 	entry := newLinkedListEntry(value)
-	return l.add(entry)
+	return l.addHead(entry)
 }
 
-func (l *LinkedList[V]) add(entry *LinkedListEntry[V]) *LinkedListEntry[V] {
+func (l *LinkedList[V]) AddBack(value V) *LinkedListEntry[V] {
+	entry := newLinkedListEntry(value)
+	return l.addTail(entry)
+}
+
+func (l *LinkedList[V]) addHead(entry *LinkedListEntry[V]) *LinkedListEntry[V] {
 	if l.head != nil {
 		l.head.next = entry
 		entry.previous = l.head
@@ -53,6 +58,20 @@ func (l *LinkedList[V]) add(entry *LinkedListEntry[V]) *LinkedListEntry[V] {
 		l.tail = entry
 	}
 	entry.next = nil
+	l.size++
+	return entry
+}
+
+func (l *LinkedList[V]) addTail(entry *LinkedListEntry[V]) *LinkedListEntry[V] {
+	if l.tail != nil {
+		l.tail.previous = entry
+		entry.next = l.tail
+		l.tail = entry
+	} else {
+		l.head = entry
+		l.tail = entry
+	}
+	entry.previous = nil
 	l.size++
 	return entry
 }
@@ -114,7 +133,7 @@ func (l *LinkedList[V]) MoveToFront(entry *LinkedListEntry[V]) {
 	}
 
 	l.Remove(entry)
-	l.add(entry)
+	l.addHead(entry)
 }
 
 func (l *LinkedList[V]) Head() *LinkedListEntry[V] {
@@ -186,7 +205,7 @@ func (l *LinkedList[V]) Sort(cmp func(a, b V) int) *LinkedList[V] {
 	})
 	newList := NewLinkedList[V]()
 	for _, item := range items {
-		newList.add(item)
+		newList.addHead(item)
 	}
 	return newList
 }
