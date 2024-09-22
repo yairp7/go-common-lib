@@ -1,6 +1,9 @@
 package logger
 
-import "os"
+import (
+	"fmt"
+	"os"
+)
 
 const (
 	DEBUG LogLevel = iota
@@ -23,6 +26,7 @@ type MixedLoggerOption func(*MixedLogger)
 type MixedLogger struct {
 	loggerImpl []Logger
 	level      LogLevel
+	suffix     string
 }
 
 func WithLoggerImpl(loggerImpl Logger) MixedLoggerOption {
@@ -34,6 +38,12 @@ func WithLoggerImpl(loggerImpl Logger) MixedLoggerOption {
 func WithLoggerLevel(level LogLevel) MixedLoggerOption {
 	return func(ml *MixedLogger) {
 		ml.level = level
+	}
+}
+
+func WithLogSuffix(suffix string) MixedLoggerOption {
+	return func(ml *MixedLogger) {
+		ml.suffix = suffix
 	}
 }
 
@@ -49,13 +59,19 @@ func NewMixedLogger(opts ...MixedLoggerOption) *MixedLogger {
 	return logger
 }
 
+func (l *MixedLogger) buildMessage(msg string) string {
+	return fmt.Sprintf("%s%s", msg, l.suffix)
+}
+
 func (l *MixedLogger) Debug(msg string, args ...any) {
 	if l.level > DEBUG {
 		return
 	}
 
+	fMsg := l.buildMessage(msg)
+
 	for _, logger := range l.loggerImpl {
-		logger.Debug(msg, args...)
+		logger.Debug(fMsg, args...)
 	}
 }
 
@@ -64,8 +80,10 @@ func (l *MixedLogger) Info(msg string, args ...any) {
 		return
 	}
 
+	fMsg := l.buildMessage(msg)
+
 	for _, logger := range l.loggerImpl {
-		logger.Info(msg, args...)
+		logger.Info(fMsg, args...)
 	}
 }
 
@@ -74,8 +92,10 @@ func (l *MixedLogger) Warn(msg string, args ...any) {
 		return
 	}
 
+	fMsg := l.buildMessage(msg)
+
 	for _, logger := range l.loggerImpl {
-		logger.Warn(msg, args...)
+		logger.Warn(fMsg, args...)
 	}
 }
 
@@ -84,8 +104,10 @@ func (l *MixedLogger) Error(msg string, args ...any) {
 		return
 	}
 
+	fMsg := l.buildMessage(msg)
+
 	for _, logger := range l.loggerImpl {
-		logger.Error(msg, args...)
+		logger.Error(fMsg, args...)
 	}
 }
 
