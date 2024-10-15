@@ -80,3 +80,23 @@ func BenchmarkValues(b *testing.B) {
 		slices.Values(m)
 	}
 }
+
+func Test_Filter(t *testing.T) {
+	t.Run("FilterNils", func(t *testing.T) {
+		srcVals := []float64{0.523, 24.53, 66.1, 637.3, 84.2}
+		src := make([]*float64, 10)
+		for i := range src {
+			if i%2 == 0 {
+				src[i] = &srcVals[i/2]
+			} else {
+				src[i] = nil
+			}
+		}
+
+		srcWithoutNils := slices.FilterNils(src)
+
+		for i := range srcWithoutNils {
+			assert.Equal(t, srcVals[i], *srcWithoutNils[i])
+		}
+	})
+}

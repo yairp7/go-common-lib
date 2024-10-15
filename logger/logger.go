@@ -27,6 +27,7 @@ type MixedLogger struct {
 	loggerImpl []Logger
 	level      LogLevel
 	suffix     string
+	prefix     string
 }
 
 func WithLoggerImpl(loggerImpl Logger) MixedLoggerOption {
@@ -47,6 +48,12 @@ func WithLogSuffix(suffix string) MixedLoggerOption {
 	}
 }
 
+func WithLogPrefix(prefix string) MixedLoggerOption {
+	return func(ml *MixedLogger) {
+		ml.prefix = prefix
+	}
+}
+
 func NewMixedLogger(opts ...MixedLoggerOption) *MixedLogger {
 	logger := &MixedLogger{
 		level: DEBUG,
@@ -60,7 +67,7 @@ func NewMixedLogger(opts ...MixedLoggerOption) *MixedLogger {
 }
 
 func (l *MixedLogger) buildMessage(msg string) string {
-	return fmt.Sprintf("%s%s", msg, l.suffix)
+	return fmt.Sprintf("%s%s%s", msg, l.prefix, l.suffix)
 }
 
 func (l *MixedLogger) Debug(msg string, args ...any) {

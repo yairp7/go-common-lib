@@ -1,5 +1,7 @@
 package slices
 
+import "reflect"
+
 func Reduce[T any, R any](src []T, initValue R, f func(acc R, item T) R) R {
 	acc := initValue
 	for _, item := range src {
@@ -128,4 +130,18 @@ func FindGeneric[T any](s []T, query T, equalFunc func(a, b T) bool) (result T, 
 		}
 	}
 	return result, isFound
+}
+
+func FilterNils[T any](s []T) []T {
+	return Filter[T](s, func(item T) bool {
+		if v := reflect.ValueOf(item); v.Kind() == reflect.Ptr ||
+			v.Kind() == reflect.Interface ||
+			v.Kind() == reflect.Slice ||
+			v.Kind() == reflect.Map ||
+			v.Kind() == reflect.Chan ||
+			v.Kind() == reflect.Func {
+			return !v.IsNil()
+		}
+		return true
+	})
 }
