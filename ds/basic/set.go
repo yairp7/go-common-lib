@@ -1,6 +1,8 @@
 package ds
 
-import "github.com/yairp7/go-common-lib/common"
+import (
+	"github.com/yairp7/go-common-lib/common/math"
+)
 
 type Set[K comparable] struct {
 	data map[K]struct{}
@@ -90,7 +92,7 @@ func (s *Set[K]) Merge(other *Set[K]) {
 }
 
 func (s *Set[K]) Intersect(other *Set[K]) *Set[K] {
-	min := common.Min(s.Size(), other.Size())
+	min := math.Min(s.Size(), other.Size())
 	intersect := NewSet[K](min)
 	if s.Size() > other.Size() {
 		s.ForEach(func(k K) {
@@ -109,7 +111,7 @@ func (s *Set[K]) Intersect(other *Set[K]) *Set[K] {
 }
 
 func (s *Set[K]) Union(other *Set[K]) *Set[K] {
-	max := common.Max(s.Size(), other.Size())
+	max := math.Max(s.Size(), other.Size())
 	union := NewSet[K](max)
 	union.Merge(s)
 	union.Merge(other)

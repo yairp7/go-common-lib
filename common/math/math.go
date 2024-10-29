@@ -1,4 +1,4 @@
-package common
+package math
 
 import "math"
 
@@ -22,4 +22,23 @@ func Min[T Number](a, b T) T {
 
 func ToRadians(degrees float64) float64 {
 	return degrees * math.Pi / 180.0
+}
+
+func SliceMaxMin[T Number](s []T) (min T, max T) {
+	if len(s) == 0 {
+		return min, max
+	}
+
+	min, max = s[0], s[0]
+	for i := 1; i < len(s); i++ {
+		if s[i] > max {
+			max = s[i]
+		}
+
+		if s[i] < min {
+			min = s[i]
+		}
+	}
+
+	return min, max
 }
