@@ -67,7 +67,7 @@ func NewMixedLogger(opts ...MixedLoggerOption) *MixedLogger {
 }
 
 func (l *MixedLogger) buildMessage(msg string) string {
-	return fmt.Sprintf("%s%s%s", msg, l.prefix, l.suffix)
+	return fmt.Sprintf("%s%s%s", l.prefix, msg, l.suffix)
 }
 
 func (l *MixedLogger) Debug(msg string, args ...any) {
