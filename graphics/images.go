@@ -6,7 +6,7 @@ import (
 	"image/png"
 	"os"
 
-	ds "github.com/yairp7/go-common-lib/ds/basic"
+	ds "github.com/yairp7/go-common-lib/ds"
 )
 
 func ReadPNG(path string) (image.Image, error) {

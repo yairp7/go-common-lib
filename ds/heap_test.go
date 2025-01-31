@@ -5,7 +5,7 @@ import (
 	"sort"
 	"testing"
 
-	ds "github.com/yairp7/go-common-lib/ds/basic"
+	ds "github.com/yairp7/go-common-lib/ds"
 	"gopkg.in/stretchr/testify.v1/assert"
 )
 
